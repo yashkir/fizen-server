@@ -1,7 +1,6 @@
 const uuid = require('uuid');
 const debug = require('debug')('api');
 const User = require('../models/user');
-const auth = require('../helpers/auth');
 
 /**
  * Create a user using a { name, password } body.
