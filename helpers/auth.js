@@ -26,6 +26,11 @@ async function ensureAuthenticated(req, res, next) {
     req.user = user.toObject();
   } catch (err) {
     debug(err);
+
+    if (err.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid Token." });
+    }
+
     return res.status(500).json({ message: "Error decoding token." });
   }
 
