@@ -13,14 +13,14 @@ function update(req, res) {
 /**
  * Creates a new Goal from req.body.
  *
- * Replies with the { goal }
+ * Replies with all the user's { goals }
  */
 async function create(req, res) {
   try {
     req.body.user = req.user._id;
 
-    const newGoal = await Goal.create(req.body);
-    return res.status(200).json({ goal: newGoal });
+    await Goal.create(req.body);
+    return res.status(200).json({ goals: await Goal.find({ user: req.user._id }) });
   } catch (err) {
     debug(err);
     return res.status(500).json({ message: err.message });
@@ -30,7 +30,7 @@ async function create(req, res) {
 /**
  * Lists all of current user's goals.
  *
- * Replies with{ goals[] }
+ * Replies with { goals[] }
  */
 async function index(req, res) {
   try {
