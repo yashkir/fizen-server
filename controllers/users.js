@@ -13,7 +13,7 @@ async function create(req, res) {
       return res.status(400).json({ "message": "User already exists." });
     }
     const newUser = await User.create(req.body);
-    return res.status(200).json({ user: newUser });
+    return res.status(200).json({ user: newUser, "message": "User created." });
   } catch (err) {
     debug(err);
     return res.status(500).json(err);
@@ -33,7 +33,7 @@ async function createGuest(_req, res) {
       isGuest: true
     });
 
-    return res.status(200).json({ user: newUser });
+    return res.status(200).json({ user: newUser, message: "Guest created." });
   } catch (err) {
     debug(err);
     return res.status(500).json(err);
@@ -51,7 +51,12 @@ async function login(req, res) {
     if (user) {
       if (await user.comparePassword(req.body.password)) {
         const token = user.generateToken();
-        return res.status(200).json({ "token": token });
+
+        return res.status(200).json({
+          user,
+          token,
+          message: "Logged in."
+        });
       } else {
         return res.status(401).json({ "message": "Invalid password." });
       }
@@ -85,7 +90,7 @@ async function _delete(req, res) {
     // Only allow deletion of authenticated user
     if (String(req.user._id) === String(user._id)) {
       const result = await User.deleteOne(user);
-      return res.status(200).json(result);
+      return res.status(200).json({ "message": "User deleted" });
     } else {
       return res.status(403).json({ "message": "You can only delete yourself." });
     }
