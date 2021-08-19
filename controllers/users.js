@@ -107,7 +107,8 @@ async function _delete(req, res) {
  * Replies with a code 200 + { message } on success.
  */
 function verify(req, res) {
-  res.status(200).json({ message: "Token is valid for user: " + req.user.name });
+  // FIXME revealing password here
+  res.status(200).json({ user: req.user, message: "Token is valid for user: " + req.user.name });
 }
 
 module.exports = {
