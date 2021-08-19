@@ -83,8 +83,8 @@ async function update(req, res) {
 
     // Only allow deletion of own goals
     if (String(req.user._id) === String(goal.user._id)) {
-      const result = await Goal.updateOne(goal, req.body);
-      return res.status(200).json(result);
+      await Goal.updateOne(goal, req.body);
+      return res.status(200).json({ goal });
     } else {
       return res.status(403).json({ "message": "You can only update your own goals." });
     }
