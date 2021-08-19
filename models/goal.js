@@ -29,6 +29,14 @@ const GoalSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  cspAmount: {
+    type: Number,
+    required: true,
+  },
+  progress: {
+    type: Number,
+    required: true,
+  },
   isReached: {
     type: Boolean,
     default: false,
