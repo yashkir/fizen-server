@@ -114,8 +114,8 @@ async function _delete(req, res) {
 
     // Only allow deletion of own goals
     if (String(req.user._id) === String(goal.user._id)) {
-      const result = await Goal.deleteOne(goal);
-      return res.status(200).json(result);
+      Goal.deleteOne(goal);
+      return res.status(200).json({ goals: await Goal.find({ user: req.user._id }) });
     } else {
       return res.status(403).json({ "message": "You can only delete your own goals." });
     }
